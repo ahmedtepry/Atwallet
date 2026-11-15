@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AT wallet</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4MT0iMTIwIiB5MT0iMTUwIiB4Mj0iNDAwIiB5Mj0iMzYwIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmM2NmOTQiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNkOWE0NWUiLz48L2xpbmVhckdyYWRpZW50PjxyYWRpYWxHcmFkaWVudCBpZD0iYiIgY3g9Ii41IiBjeT0iLjE4IiByPSIuOSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMWYyODQyIi8+PHN0b3Agb2Zmc2V0PSIuNiIgc3RvcC1jb2xvcj0iIzBiMGQxMiIvPjwvcmFkaWFsR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiBmaWxsPSJ1cmwoI2IpIi8+PGNpcmNsZSBjeD0iMjU2IiBjeT0iMjU2IiByPSIyMjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Q5YTQ1ZSIgc3Ryb2tlLW9wYWNpdHk9Ii4zNSIgc3Ryb2tlLXdpZHRoPSIzIi8+PGNpcmNsZSBjeD0iMjU2IiBjeT0iMjU2IiByPSIyMDYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Q5YTQ1ZSIgc3Ryb2tlLW9wYWNpdHk9Ii42IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IjYgMTQiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtNCAxKSI+PGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI2cpIiBzdHJva2Utd2lkdGg9IjI2IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgo8cGF0aCBkPSJNMTIwIDM2MCBMMjE1IDE1MCBMMzEwIDM2MCIvPjxwYXRoIGQ9Ik0xNjIgMjg4IEgyNjgiLz48cGF0aCBkPSJNMjE1IDE1MCBINDAwIi8+PHBhdGggZD0iTTM1NyAxNTAgVjM2MCIvPgo8L2c+CjwvZz48L3N2Zz4=">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<meta name="theme-color" content="#0b0d12">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* layout: one phone-width column. Lock screen is a ring emblem + keypad; the app opens on the hidden total. */
+  --bg:#0b0d12; --panel:#131722; --panel2:#1a2030; --line:#252c40;
+  --ink:#eceff6; --mute:#8a93aa; --accent:#d9a45e; --accent-ink:#1a1205;
+  --pos:#62cfa5; --neg:#f08585;
+  --display:"El Messiri","Tajawal",system-ui,sans-serif;
+  --body:"IBM Plex Sans Arabic","Tajawal",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0}
+html,body{min-height:100%}
+body{background:radial-gradient(900px 420px at 50% -8%,#1c2438 0,transparent 62%),var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-tap-highlight-color:transparent}
+body.noscroll{overflow:hidden}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+[hidden]{display:none!important}
+.num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate;display:inline-block}
+
+#root{max-width:480px;margin:0 auto;padding:max(18px,env(safe-area-inset-top)) 16px max(28px,env(safe-area-inset-bottom))}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:.2px}
+.ghost{color:var(--mute);padding:8px 12px;border-radius:10px;border:1px solid var(--line);font-size:14px}
+.ghost:active{background:var(--panel)}
+
+.hero{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:22px;padding:20px 18px 16px}
+.eyebrow{color:var(--mute);font-size:13px}
+.total{display:flex;align-items:baseline;gap:8px;margin:6px 0 2px;cursor:pointer;width:100%;text-align:start}
+.total .v{font-family:var(--display);font-size:38px;font-weight:700;line-height:1.15}
+.total .s{color:var(--accent);font-size:16px}
+.sub{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.pill{border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:13px;color:var(--mute);background:rgba(255,255,255,.02)}
+.pill b{color:var(--ink);font-weight:500}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin-top:12px}
+.seg button{padding:5px 14px;font-size:13px;color:var(--mute)}
+.seg button.on{background:var(--accent);color:var(--accent-ink);font-weight:600}
+
+.banner{margin-top:14px;border:1px dashed var(--accent);border-radius:14px;padding:12px 14px;font-size:14px;color:var(--ink);display:flex;flex-direction:column;gap:8px}
+.banner button{align-self:flex-start;color:var(--accent);font-weight:600;font-size:14px;padding:2px 0}
+
+.actions{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0 6px}
+.act{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 4px;font-size:13px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.act svg{width:20px;height:20px;stroke:var(--accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.act:active{background:var(--panel2)}
+
+h2{font-family:var(--display);font-size:18px;font-weight:700;margin:24px 0 10px}
+.wallets{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.w{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px;text-align:start;display:flex;flex-direction:column;gap:2px;min-height:92px}
+.w .n{font-size:14px;color:var(--mute)}
+.w .b{font-size:19px;font-weight:600;margin-top:auto}
+.w .c{font-size:12px;color:var(--accent)}
+.w .d{font-size:12px;color:var(--mute)}
+.gold{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.gold .gv{font-size:17px;font-weight:600;margin:2px 0;display:flex;gap:8px;flex-wrap:wrap}
+.gold .gl{text-align:start;padding:0}
+.prices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0 6px}
+.prices div{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:12px;padding:8px 10px;display:flex;flex-direction:column;gap:2px}
+.prices b{font-weight:600;font-size:15px}
+.w.add{align-items:center;justify-content:center;color:var(--mute);border-style:dashed;font-size:14px}
+
+.list{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--panel)}
+.tx{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;text-align:start;width:100%;border-bottom:1px solid var(--line)}
+.tx:last-child{border-bottom:0}
+.tx .t{font-size:15px}
+.tx .d{font-size:12px;color:var(--mute)}
+.tx .a{font-weight:600;font-size:15px;white-space:nowrap}
+.pos{color:var(--pos)} .neg{color:var(--neg)} .neu{color:var(--ink)}
+.empty{padding:22px;text-align:center;color:var(--mute);font-size:14px}
+.foot{display:flex;gap:10px;margin-top:22px}
+.foot .ghost{flex:1;text-align:center}
+
+/* lock */
+#lock{position:fixed;inset:0;z-index:20;background:radial-gradient(700px 420px at 50% 18%,#1d2640 0,transparent 65%),var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px}
+.emblem{width:132px;height:132px}
+.emblem .r{fill:none;stroke:var(--accent)}
+.emblem .spin{transform-origin:60px 60px;animation:spin 40s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.lt{font-family:var(--display);font-size:22px;font-weight:700;text-align:center}
+.ls{color:var(--mute);font-size:14px;min-height:22px;text-align:center}
+.ls.err{color:var(--neg)}
+.dots{display:flex;gap:12px;direction:ltr;margin:4px 0 6px}
+.dots i{width:13px;height:13px;border-radius:50%;border:1.5px solid var(--mute)}
+.dots i.f{background:var(--accent);border-color:var(--accent)}
+.shake{animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.pad{display:grid;grid-template-columns:repeat(3,76px);gap:12px;direction:ltr}
+.pad button{height:62px;border-radius:50%;background:var(--panel);border:1px solid var(--line);font-size:24px;font-family:var(--body)}
+.pad button:active{background:var(--panel2)}
+.pad .x{background:none;border-color:transparent;font-size:15px;color:var(--mute)}
+.bio{display:flex;align-items:center;gap:8px;color:var(--accent);font-weight:600;padding:10px 18px;border:1px solid var(--accent);border-radius:999px}
+.bio svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+
+/* sheet */
+#sheetWrap{position:fixed;inset:0;z-index:10;background:rgba(4,6,10,.7);display:flex;align-items:flex-end;justify-content:center}
+#sheet{width:100%;max-width:480px;max-height:90%;overflow-y:auto;background:var(--panel);border:1px solid var(--line);border-bottom:0;border-radius:22px 22px 0 0;padding:18px 16px max(24px,env(safe-area-inset-bottom))}
+.sh{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.sh h3{font-family:var(--display);font-size:19px}
+.sh button{color:var(--mute);font-size:22px;padding:2px 10px}
+#sheetBody{display:flex;flex-direction:column;gap:12px}
+label{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--mute)}
+.lbl{font-size:14px;color:var(--mute)}
+input,select,textarea{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:11px 12px;color:var(--ink);font-size:16px;width:100%}
+textarea{min-height:90px;resize:vertical;direction:ltr;font-size:12px}
+.amt{display:flex;align-items:center;gap:8px}
+.amt span{color:var(--accent);min-width:34px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:14px;color:var(--mute)}
+.chip.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.btn{border:1px solid var(--line);border-radius:14px;padding:13px 16px;font-weight:600;text-align:center;background:var(--panel2)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.danger{color:var(--neg);border-color:#5a2c33}
+.btn.wide{width:100%}
+.hint{font-size:13px;color:var(--mute)}
+.hint b{color:var(--ink);font-weight:500}
+.kv{display:flex;justify-content:space-between;gap:10px;font-size:15px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sep{height:1px;background:var(--line);margin:4px 0}
+#toast{position:fixed;bottom:max(24px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-size:14px;z-index:40;max-width:90%;text-align:center}
+@media (prefers-reduced-motion:reduce){.emblem .spin,.shake{animation:none}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<div id="lock" role="dialog" aria-label="قفل التطبيق"></div>
+
+<div id="sheetWrap" hidden>
+  <div id="sheet" role="dialog" aria-modal="true">
+    <div class="sh"><h3 id="sheetTitle"></h3><button data-act="closeSheet" aria-label="إغلاق">×</button></div>
+    <div id="sheetBody"></div>
+  </div>
+</div>
+<div id="toast" hidden></div>
+
+<script>
+(()=>{
+'use strict';
+const LS='wlt_state_v1', LSC='wlt_cred_v1';
+const CUR={AED:'د.إ',EGP:'ج.م',GOLD:'جم'};
+const GOLD_DEFAULT=486.6;
+const RATE_DEFAULT=14.67, GOLD_EGP_DEFAULT=7130, PRICES_AT='2026-11-10'; // AED per gram of 24k gold, early Nov 2026 (editable in settings)
+const CATS_OUT=['أكل','مواصلات','سكن','فواتير','تسوق','صحة','ترفيه','أخرى'];
+const CATS_IN=['راتب','مكافأة','هدية','أخرى'];
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Math.random().toString(36).slice(2,9);
+const num=v=>{const s=String(v||'').replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/٫/g,'.').replace(/[,\s٬]/g,'');const n=parseFloat(s);return isFinite(n)?n:NaN;};
+const fmt=n=>new Intl.NumberFormat('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}).format(n);
+const rfmt=n=>new Intl.NumberFormat('en-US',{maximumFractionDigits:4}).format(n);
+const gfmt=n=>new Intl.NumberFormat('en-US',{minimumFractionDigits:2,maximumFractionDigits:3}).format(n);
+const money=(c,n)=>c==='GOLD'?gfmt(n)+' جم':fmt(n)+' '+CUR[c];
+const N=(t,c)=>`<span class="num${c?' '+c:''}">${t}</span>`;
+const today=()=>{const d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,10)};
+const dshow=ts=>new Date(ts).toLocaleDateString('ar-EG-u-nu-latn',{day:'numeric',month:'short'});
+
+let state=null, mode='loading', buf='', first='', changing=false, reveal=false, bioOK=false;
+let errMsg='', shakeNow=false, dbDoc=null, fails=0, lockUntil=0, liveFn=null, idleT=null, saveT=null, toastT=null;
+
+/* ---------- state ---------- */
+const newState=()=>({v:1,pin:null,wallets:[],txs:[],rate:RATE_DEFAULT,base:'AED',gold:GOLD_DEFAULT,goldEGP:GOLD_EGP_DEFAULT,goldAt:PRICES_AT,pricesV2:true,incGold:true,demo:false,updatedAt:0});
+const gp=()=>(state.gold>0?state.gold:0);
+const gpEGP=()=>state.goldEGP>0?state.goldEGP:gp()*(state.rate||1);
+function migrate(s){
+  if(!s) return s;
+  if(s.gold==null){s.gold=GOLD_DEFAULT;s.goldAt=PRICES_AT;s.incGold=true}
+  if(!s.pricesV2){ // refresh the placeholder prices once; keep anything the user typed
+    s.pricesV2=true;
+    if(!(s.goldEGP>0)){s.goldEGP=GOLD_EGP_DEFAULT;s.goldAt=PRICES_AT}
+    if(s.rate===13){s.rate=RATE_DEFAULT}
+    if(s.gold===486){s.gold=GOLD_DEFAULT}
+  }
+  if(!s.goldPrompted&&s.pin){ // one-time: give existing wallets a gold wallet to fill in
+    s.goldPrompted=true;
+    if(!s.wallets.some(w=>w.cur==='GOLD')) s.wallets.push({id:'gold1',name:'سبائك دهب',cur:'GOLD',open:0});
+  }
+  return s;
+}
+function seedDemo(){
+  const d=86400000, n=Date.now();
+  state.wallets=[
+    {id:'w1',name:'كاش درهم',cur:'AED',open:1000},
+    {id:'w2',name:'بنك الإمارات',cur:'AED',open:0},
+    {id:'w3',name:'كاش جنيه',cur:'EGP',open:6000},
+    {id:'w4',name:'بنك مصر',cur:'EGP',open:20000},
+    {id:'gold1',name:'سبائك دهب',cur:'GOLD',open:100}
+  ];
+  state.goldPrompted=true;
+  state.txs=[
+    {id:uid(),ts:n-9*d,type:'in',w:'w2',amt:14000,cat:'راتب',note:''},
+    {id:uid(),ts:n-8*d,type:'out',w:'w2',amt:3200,cat:'سكن',note:'إيجار'},
+    {id:uid(),ts:n-6*d,type:'move',w:'w2',to:'w4',amt:2000,toAmt:26400,note:'تحويل لمصر'},
+    {id:uid(),ts:n-4*d,type:'move',w:'w2',to:'w1',amt:500,toAmt:500,note:''},
+    {id:uid(),ts:n-3*d,type:'out',w:'w1',amt:380,cat:'أكل',note:'سوبرماركت'},
+    {id:uid(),ts:n-1*d,type:'out',w:'w3',amt:450,cat:'مواصلات',note:''}
+  ];
+  state.demo=true;
+}
+function loadLocal(){try{const s=localStorage.getItem(LS);return s?JSON.parse(s):null}catch(e){return null}}
+function persist(){
+  state.updatedAt=Date.now();
+  try{localStorage.setItem(LS,JSON.stringify(state))}catch(e){}
+  clearTimeout(saveT);
+  saveT=setTimeout(()=>{ if(dbDoc){ try{ dbDoc.set({json:JSON.stringify(state),updatedAt:state.updatedAt}); }catch(e){} } },700);
+}
+async function initDb(){
+  try{
+    if(!window.claude||!window.claude.use) return;
+    const user=await window.claude.use('user'); const db=await window.claude.use('db');
+    if(!user||!db) return;
+    const id=await user.id();
+    dbDoc=db.collection('data/users/'+id).doc('wallet');
+    const snap=await dbDoc.get();
+    const ex=typeof snap.exists==='function'?snap.exists():snap.exists;
+    if(!ex) { if(state&&state.pin) persist(); return; }
+    const d=typeof snap.data==='function'?snap.data():snap;
+    if(d&&d.json&&d.updatedAt>((state&&state.updatedAt)||0)){
+      state=migrate(JSON.parse(d.json));
+      try{localStorage.setItem(LS,JSON.stringify(state))}catch(e){}
+      if(mode.startsWith('setup')||mode==='loading'){mode='lock';buf='';}
+      render();
+    } else if(state&&state.pin&&(!d||d.updatedAt<state.updatedAt)) persist();
+  }catch(e){}
+}
+
+/* ---------- money ---------- */
+const eff=t=>t.type==='in'||t.type==='adjust'?[[t.w,t.amt]]:t.type==='out'?[[t.w,-t.amt]]:[[t.w,-t.amt],[t.to,t.toAmt]];
+const getW=id=>state.wallets.find(w=>w.id===id);
+const bal=w=>state.txs.reduce((s,t)=>s+eff(t).reduce((a,[id,d])=>a+(id===w.id?d:0),0),w.open);
+const toAED=(c,a)=>c==='AED'?a:c==='EGP'?a/(state.rate||1):a*gp();
+const fromAED=(c,a)=>c==='AED'?a:c==='EGP'?a*(state.rate||1):(gp()>0?a/gp():0);
+function totals(){
+  const s={AED:0,EGP:0,GOLD:0}; state.wallets.forEach(w=>{s[w.cur]=(s[w.cur]||0)+bal(w)});
+  const goldAED=s.GOLD*gp();
+  const inc=state.incGold!==false;
+  const goldEGPv=s.GOLD*gpEGP();
+  const total=state.base==='AED'?s.AED+s.EGP/(state.rate||1)+(inc?goldAED:0):s.EGP+s.AED*(state.rate||1)+(inc?goldEGPv:0);
+  return {s,goldAED,goldEGPv,total};
+}
+const m=t=>reveal?t:'••••••';
+
+/* ---------- pin + biometric ---------- */
+async function hash(salt,pin){
+  try{const b=new TextEncoder().encode(salt+':'+pin);const d=await crypto.subtle.digest('SHA-256',b);return [...new Uint8Array(d)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+  catch(e){let x=5381;for(const c of salt+pin)x=((x<<5)+x+c.charCodeAt(0))|0;return 'f'+x}
+}
+const b64=b=>btoa(String.fromCharCode(...new Uint8Array(b))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+const unb64=s=>Uint8Array.from(atob(s.replace(/-/g,'+').replace(/_/g,'/')),c=>c.charCodeAt(0));
+const NB=()=>{try{const c=window.Capacitor;return c&&c.isNativePlatform&&c.isNativePlatform()&&c.Plugins&&c.Plugins.BiometricAuth||null}catch(e){return null}};
+const hasCred=()=>{try{return !!localStorage.getItem(LSC)}catch(e){return false}};
+async function checkBio(){
+  const nb=NB();
+  if(nb){try{const r=await nb.checkBiometry();bioOK=!!(r&&r.isAvailable)}catch(e){bioOK=false}if(mode==='lock')renderLock();return}
+  try{bioOK=!!(window.PublicKeyCredential&&await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable())}catch(e){bioOK=false}
+  if(mode==='lock')renderLock();
+}
+async function enableBio(){
+  const nb=NB();
+  if(nb){try{await nb.authenticate({reason:'تفعيل البصمة',androidTitle:'AT wallet',cancelTitle:'إلغاء'});localStorage.setItem(LSC,'native');return true}catch(e){return false}}
+  try{
+    const c=await navigator.credentials.create({publicKey:{
+      challenge:crypto.getRandomValues(new Uint8Array(32)),
+      rp:{name:'AT wallet'},
+      user:{id:crypto.getRandomValues(new Uint8Array(16)),name:'wallet',displayName:'AT wallet'},
+      pubKeyCredParams:[{type:'public-key',alg:-7},{type:'public-key',alg:-257}],
+      authenticatorSelection:{authenticatorAttachment:'platform',userVerification:'required'},
+      timeout:60000}});
+    localStorage.setItem(LSC,b64(c.rawId)); return true;
+  }catch(e){return false}
+}
+async function bioLogin(){
+  const nb=NB();
+  if(nb){try{await nb.authenticate({reason:'افتح AT wallet',androidTitle:'AT wallet',cancelTitle:'استخدم الرقم السري'});unlock()}catch(e){err('البصمة ما نفعتش. اكتب الرقم السري')}return}
+  try{
+    const id=localStorage.getItem(LSC);
+    const r=await navigator.credentials.get({publicKey:{
+      challenge:crypto.getRandomValues(new Uint8Array(32)),
+      allowCredentials:[{type:'public-key',id:unb64(id),transports:['internal']}],
+      userVerification:'required',timeout:60000}});
+    if(r) unlock();
+  }catch(e){err('البصمة ما نفعتش. اكتب الرقم السري')}
+}
+
+function err(t){errMsg=t;shakeNow=true;renderLock()}
+function unlock(){mode='app';buf='';errMsg='';reveal=false;render();resetIdle()}
+function lockNow(){
+  if(!state||!state.pin) return;
+  closeSheet(); changing=false; mode='lock'; buf=''; errMsg=''; reveal=false;
+  $('#root').innerHTML=''; renderLock();
+}
+function resetIdle(){clearTimeout(idleT);if(mode==='app')idleT=setTimeout(lockNow,90000)}
+
+async function pinDone(){
+  const pin=buf; buf='';
+  if(mode==='lock'){
+    if(Date.now()<lockUntil){err('استنى شوية وجرب تاني');return}
+    const ok=state.pin&&await hash(state.pin.salt,pin)===state.pin.hash;
+    if(ok){fails=0;unlock();return}
+    fails++;
+    if(fails>=5){fails=0;lockUntil=Date.now()+30000;err('محاولات كتير. استنى 30 ثانية')} else err('الرقم غلط');
+    return;
+  }
+  if(mode==='setup1'||mode==='change1'){first=pin;mode=mode==='setup1'?'setup2':'change2';errMsg='';renderLock();return}
+  if(pin!==first){mode=mode==='setup2'?'setup1':'change1';err('الرقمين مش زي بعض. ابدأ تاني');return}
+  const salt=uid()+uid(); const was=mode;
+  state.pin={salt,hash:await hash(salt,pin)};
+  if(was==='setup2') seedDemo();
+  changing=false; persist(); unlock();
+  if(was==='setup2'){ if(bioOK) offerBio(); } else toast('اتغير الرقم السري');
+}
+function key(k){
+  if(mode==='loading') return;
+  errMsg='';
+  if(k==='del') buf=buf.slice(0,-1); else if(buf.length<6) buf+=k;
+  renderLock();
+  if(buf.length===6) setTimeout(pinDone,120);
+}
+
+/* ---------- lock screen ---------- */
+const FP='<svg viewBox="0 0 24 24"><path d="M12 11v4a3 3 0 0 1-3 3"/><path d="M8 11a4 4 0 0 1 8 0v3c0 2.5-1 4.5-3 6"/><path d="M5 12a7 7 0 0 1 14 0c0 1.5 0 3-.5 4.5"/><path d="M12 14v1"/></svg>';
+function renderLock(){
+  const L=$('#lock');
+  L.hidden=(mode==='app');
+  if(mode==='app') return;
+  const titles={loading:'بنجهز محفظتك…',setup1:'اختار رقم سري من 6 أرقام',setup2:'اكتبه تاني للتأكيد',lock:'AT wallet',change1:'اكتب الرقم السري الجديد',change2:'اكتبه تاني للتأكيد'};
+  const subs={loading:'',setup1:'هيتطلب منك كل ما تفتح التطبيق',setup2:'',lock:'اكتب الرقم السري أو استخدم البصمة',change1:'',change2:''};
+  const dots=[0,1,2,3,4,5].map(i=>`<i class="${i<buf.length?'f':''}"></i>`).join('');
+  const keys=[1,2,3,4,5,6,7,8,9].map(k=>`<button data-k="${k}" aria-label="${k}">${k}</button>`).join('');
+  const bio=(mode==='lock'&&bioOK&&hasCred())?`<button class="bio" data-act="bio">${FP}<span>افتح بالبصمة أو Face ID</span></button>`:'';
+  const cancel=changing?`<button class="ghost" data-act="cancelChange">إلغاء</button>`:'';
+  L.innerHTML=`
+  <svg class="emblem" viewBox="0 0 120 120" aria-hidden="true">
+    <circle class="r" cx="60" cy="60" r="54" stroke-width="1" opacity=".35"/>
+    <g class="spin"><circle class="r" cx="60" cy="60" r="42" stroke-width="1.5" stroke-dasharray="3 7" opacity=".8"/></g>
+    <circle class="r" cx="60" cy="60" r="28" stroke-width="1.5" opacity=".6"/>
+    <g transform="translate(60 60) scale(.145) translate(-260 -255)" fill="none" stroke="#e5b777" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"><path d="M120 360 L215 150 L310 360"/><path d="M162 288 H268"/><path d="M215 150 H400"/><path d="M357 150 V360"/></g>
+  </svg>
+  <div class="lt">${titles[mode]}</div>
+  <div class="ls${errMsg?' err':''}">${esc(errMsg||subs[mode])}</div>
+  ${mode==='loading'?'':`<div class="dots${shakeNow?' shake':''}">${dots}</div>
+  <div class="pad">${keys}<span></span><button data-k="0" aria-label="0">0</button><button class="x" data-k="del" aria-label="مسح">مسح</button></div>`}
+  ${bio}${cancel}`;
+  shakeNow=false;
+}
+
+/* ---------- main screen ---------- */
+const ICON={
+  out:'<svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg>',
+  in:'<svg viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></svg>',
+  move:'<svg viewBox="0 0 24 24"><path d="M4 8h14l-3-3M20 16H6l3 3"/></svg>',
+  fix:'<svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/></svg>'
+};
+function txView(t){
+  const w=getW(t.w), w2=t.to?getW(t.to):null;
+  if(!w||(t.type==='move'&&!w2)) return null;
+  if(t.type==='move'){
+    const diff=w.cur!==w2.cur;
+    return {title:(w.cur==='GOLD'||w2.cur==='GOLD')&&diff?(w.cur==='GOLD'?'بيع ذهب':'شراء ذهب'):diff?'صرف عملة':'تحويل بين محافظ',sub:`${esc(w.name)} ← ${esc(w2.name)}`,
+      amt:diff?`${N(money(w.cur,t.amt))} ← ${N(money(w2.cur,t.toAmt))}`:N(money(w.cur,t.amt)),cls:'neu'};
+  }
+  const sign=t.type==='out'||(t.type==='adjust'&&t.amt<0)?-1:1;
+  return {title:t.type==='adjust'?'تسوية رصيد':esc(t.cat||''),sub:esc(w.name)+(t.note?' · '+esc(t.note):''),
+    amt:N((sign<0?'−':'+')+money(w.cur,Math.abs(t.amt))),cls:sign<0?'neg':'pos'};
+}
+function render(){
+  if(!state){return}
+  renderLock();
+  if(mode==='lock'||mode==='loading'||mode.startsWith('setup')){ $('#root').innerHTML=''; return; }
+  const {s,goldAED,goldEGPv,total}=totals();
+  const hasGold=state.wallets.some(w=>w.cur==='GOLD');
+  const rows=[...state.txs].sort((a,b)=>b.ts-a.ts).slice(0,30).map(t=>{
+    const v=txView(t); if(!v) return '';
+    return `<button class="tx" data-act="tx" data-id="${t.id}"><div><div class="t">${v.title}</div><div class="d">${v.sub} · ${dshow(t.ts)}</div></div><div class="a ${v.cls}">${v.amt}</div></button>`;
+  }).join('');
+  const walletsHtml=state.wallets.map(w=>`<button class="w" data-act="wallet" data-id="${w.id}"><span class="n">${esc(w.name)}</span><span class="c">${w.cur==='GOLD'?'ذهب 24':w.cur}</span><span class="b">${m(N(money(w.cur,bal(w))))}</span>${w.cur==='GOLD'?`<span class="d">${gp()>0?'≈ '+m(N(fmt(state.base==='AED'?bal(w)*gp():bal(w)*gpEGP())+' '+CUR[state.base])):'حدد سعر الجرام'}</span>`:''}</button>`).join('');
+  $('#root').innerHTML=`
+  <div class="top"><div class="brand" dir="ltr"><svg class="lg" viewBox="100 130 320 250" width="34" height="27" aria-hidden="true" fill="none" stroke="#e5b777" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"><path d="M120 360 L215 150 L310 360"/><path d="M162 288 H268"/><path d="M215 150 H400"/><path d="M357 150 V360"/></svg><span>AT wallet</span></div><button class="ghost" data-act="lock">قفل الآن</button></div>
+  <section class="hero">
+    <div class="eyebrow">إجمالي ما معاك</div>
+    <button class="total" data-act="reveal" aria-label="إظهار أو إخفاء الأرصدة"><span class="v">${m(N(fmt(total)))}</span><span class="s">${CUR[state.base]}</span></button>
+    <div class="sub">
+      <span class="pill">درهم: <b>${m(N(fmt(s.AED)))}</b></span>
+      <span class="pill">جنيه: <b>${m(N(fmt(s.EGP)))}</b></span>
+      ${hasGold?`<button class="pill" data-act="settings">ذهب: <b>${m(N(gfmt(s.GOLD)+' جم'))}</b></button>`:''}
+      <button class="pill" data-act="settings">1 د.إ = <b>${N(rfmt(state.rate))}</b> ج.م</button>
+    </div>
+    <div class="seg" role="group" aria-label="عملة الإجمالي"><button class="${state.base==='AED'?'on':''}" data-act="base" data-v="AED">بالدرهم</button><button class="${state.base==='EGP'?'on':''}" data-act="base" data-v="EGP">بالجنيه</button></div>
+    ${hasGold?`<div class="gold"><div class="eyebrow">قيمة الدهب عيار 24 النهاردة</div>
+      <div class="gv">${gp()>0?m(N(fmt(goldAED))+' د.إ')+' · '+m(N(fmt(goldEGPv))+' ج.م'):'حدد سعر الجرام من الإعدادات'}</div>
+      <div class="prices"><div><span class="eyebrow">جرام 24 في الإمارات</span><b>${N(fmt(gp()))} د.إ</b></div><div><span class="eyebrow">جرام 24 في مصر</span><b>${N(fmt(gpEGP()))} ج.م</b>${state.goldEGP>0?'':' <span class="eyebrow">(تقريبي)</span>'}</div></div>
+      <button class="hint gl" data-act="settings">آخر تحديث ${esc(state.goldAt||'')} · عدّل الأسعار</button></div>`:''}
+    <button class="btn primary wide" style="margin-top:12px" data-act="allEGP">كل ما أملك بالجنيه المصري</button>
+    <button class="btn wide" style="margin-top:8px" data-act="reveal">${reveal?'إخفاء الأرصدة':'إظهار الأرصدة'}</button>
+    <div class="hint" style="margin-top:8px">الأرصدة بتتخفى تلقائي كل مرة تفتح التطبيق.</div>
+  </section>
+  ${state.demo?`<div class="banner"><span>الأرقام دي أمثلة للتجربة. امسحها وابدأ بمحافظك الحقيقية.</span><button data-act="clearDemo">امسح الأمثلة وابدأ من الصفر</button></div>`:''}
+  <div class="actions">
+    <button class="act" data-act="fOut">${ICON.out}مصروف</button>
+    <button class="act" data-act="fIn">${ICON.in}دخل</button>
+    <button class="act" data-act="fMove">${ICON.move}تحويل / صرف</button>
+    <button class="act" data-act="fAdj">${ICON.fix}مطابقة</button>
+  </div>
+  <h2>المحافظ</h2>
+  <div class="wallets">${walletsHtml}<button class="w add" data-act="fWallet">+ محفظة جديدة</button></div>
+  <h2>آخر العمليات</h2>
+  <div class="list">${rows||'<div class="empty">لسه مفيش عمليات. سجل أول مصروف أو دخل.</div>'}</div>
+  <div class="foot"><button class="ghost" data-act="settings">الإعدادات والنسخ الاحتياطي</button></div>`;
+}
+
+/* ---------- sheets ---------- */
+function openSheet(title,body,live){
+  $('#sheetTitle').textContent=title; $('#sheetBody').innerHTML=body; liveFn=live||null;
+  $('#sheetWrap').hidden=false; document.body.classList.add('noscroll'); if(liveFn) liveFn();
+}
+function closeSheet(){$('#sheetWrap').hidden=true;$('#sheetBody').innerHTML='';liveFn=null;document.body.classList.remove('noscroll')}
+function toast(t){const e=$('#toast');e.textContent=t;e.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>{e.hidden=true},2400)}
+function commit(msg){persist();closeSheet();render();if(msg)toast(msg)}
+const wOpts=(sel,skip)=>state.wallets.filter(w=>w.id!==skip).map(w=>`<option value="${w.id}"${w.id===sel?' selected':''}>${esc(w.name)} · ${w.cur}</option>`).join('');
+const val=id=>{const e=$('#'+id);return e?e.value:''};
+function tsFrom(d){return (!d||d===today())?Date.now():new Date(d+'T12:00:00').getTime()}
+
+function fTx(type,wid){
+  if(!state.wallets.length){fWallet();return}
+  const cats=type==='out'?CATS_OUT:CATS_IN;
+  openSheet(type==='out'?'مصروف جديد':'دخل جديد',`
+    <label>المحفظة<select id="f_w">${wOpts(wid)}</select></label>
+    <label>المبلغ<div class="amt"><input id="f_a" inputmode="decimal" placeholder="0.00" autocomplete="off"><span id="f_cur"></span></div></label>
+    <div class="lbl">التصنيف</div>
+    <div class="chips" id="f_c">${cats.map((c,i)=>`<button type="button" class="chip${i===0?' on':''}" data-act="cat" data-v="${c}">${c}</button>`).join('')}</div>
+    <label>التاريخ<input id="f_d" type="date" value="${today()}"></label>
+    <label>ملاحظة (اختياري)<input id="f_n" maxlength="80"></label>
+    <button class="btn primary wide" data-act="saveTx" data-type="${type}">حفظ</button>`,
+    ()=>{const w=getW(val('f_w'));if(w)$('#f_cur').textContent=CUR[w.cur]});
+}
+function saveTx(type){
+  const w=getW(val('f_w')), a=num(val('f_a'));
+  if(!w||!(a>0)){toast('اكتب مبلغ صحيح');return}
+  const c=document.querySelector('#f_c .chip.on');
+  state.txs.push({id:uid(),ts:tsFrom(val('f_d')),type,w:w.id,amt:a,cat:c?c.dataset.v:'أخرى',note:val('f_n').trim()});
+  commit('اتسجل');
+}
+function fMove(){
+  if(state.wallets.length<2){toast('محتاج محفظتين على الأقل');if(!state.wallets.length||state.wallets.length<2)fWallet();return}
+  const a=state.wallets[0].id, b=state.wallets.find(w=>w.id!==a).id;
+  openSheet('تحويل أو صرف عملة',`
+    <label>من محفظة<select id="m_f">${wOpts(a)}</select></label>
+    <label>إلى محفظة<select id="m_t">${wOpts(b)}</select></label>
+    <label>المبلغ اللي خرج<div class="amt"><input id="m_a" inputmode="decimal" placeholder="0.00" autocomplete="off"><span id="m_fc"></span></div></label>
+    <label id="m_row" hidden>المبلغ اللي وصل<div class="amt"><input id="m_b" inputmode="decimal" placeholder="0.00" autocomplete="off"><span id="m_tc"></span></div></label>
+    <div class="hint" id="m_r"></div>
+    <label>ملاحظة (اختياري)<input id="m_n" maxlength="80"></label>
+    <button class="btn primary wide" data-act="saveMove">حفظ</button>`,
+    ()=>{
+      const f=getW(val('m_f')), t=getW(val('m_t')); if(!f||!t) return;
+      $('#m_fc').textContent=CUR[f.cur]; $('#m_tc').textContent=CUR[t.cur];
+      const diff=f.cur!==t.cur; $('#m_row').hidden=!diff;
+      const A=num(val('m_a')); const bEl=$('#m_b');
+      const gold=f.cur==='GOLD'||t.cur==='GOLD';
+      if(diff&&A>0&&!bEl.dataset.touched){const est=fromAED(t.cur,toAED(f.cur,A));if(est>0)bEl.value=t.cur==='GOLD'?est.toFixed(3):est.toFixed(2)}
+      if(diff){const B=num(bEl.value);
+        if(gold){
+          const og=f.cur==='GOLD'?t:f, gr=f.cur==='GOLD'?A:B, oth=f.cur==='GOLD'?B:A;
+          if(gr>0&&oth>0) $('#m_r').innerHTML=`سعر الجرام الفعلي: <b>${N(fmt(oth/gr)+' '+CUR[og.cur])}</b>`;
+          else $('#m_r').innerHTML=`سعر الجرام المحفوظ: <b>${N(fmt(fromAED(og.cur,gp()))+' '+CUR[og.cur])}</b>. عدّل المبلغ اللي وصل لو السعر مختلف.`;
+        } else if(A>0&&B>0){const r=f.cur==='AED'?B/A:A/B;$('#m_r').innerHTML=`سعر الصرف الفعلي: <b>1 د.إ = ${N(rfmt(r))} ج.م</b>`}
+        else $('#m_r').innerHTML=`السعر المحفوظ: <b>1 د.إ = ${N(rfmt(state.rate))} ج.م</b>. عدّل المبلغ اللي وصل لو السعر مختلف.`;
+      } else $('#m_r').textContent='';
+    });
+}
+function saveMove(){
+  const f=getW(val('m_f')), t=getW(val('m_t')), A=num(val('m_a'));
+  if(!f||!t||f.id===t.id){toast('اختار محفظتين مختلفتين');return}
+  if(!(A>0)){toast('اكتب المبلغ');return}
+  let B=A; if(f.cur!==t.cur){B=num(val('m_b')); if(!(B>0)){toast('اكتب المبلغ اللي وصل');return}}
+  state.txs.push({id:uid(),ts:Date.now(),type:'move',w:f.id,to:t.id,amt:A,toAmt:B,note:val('m_n').trim()});
+  commit('اتسجل');
+}
+function fAdj(wid){
+  if(!state.wallets.length){fWallet();return}
+  openSheet('مطابقة الرصيد',`
+    <div class="hint">اكتب الرصيد الحقيقي اللي قدامك. التطبيق هيسجل الفرق كتسوية.</div>
+    <label>المحفظة<select id="a_w">${wOpts(wid)}</select></label>
+    <div class="kv"><span class="hint">الرصيد في التطبيق</span><b id="a_cur"></b></div>
+    <label>الرصيد الفعلي<div class="amt"><input id="a_a" inputmode="decimal" placeholder="0.00" autocomplete="off"><span id="a_c"></span></div></label>
+    <div class="hint" id="a_d"></div>
+    <button class="btn primary wide" data-act="saveAdj">تسوية</button>`,
+    ()=>{
+      const w=getW(val('a_w')); if(!w) return; const b=bal(w);
+      $('#a_cur').innerHTML=N(money(w.cur,b)); $('#a_c').textContent=CUR[w.cur];
+      const A=num(val('a_a'));
+      $('#a_d').innerHTML=isNaN(A)?'':(Math.abs(A-b)<0.005?'الرصيد مطابق':`الفرق: <b>${N((A-b>0?'+':'−')+fmt(Math.abs(A-b)))}</b>`);
+    });
+}
+function saveAdj(){
+  const w=getW(val('a_w')), A=num(val('a_a'));
+  if(!w||isNaN(A)){toast('اكتب الرصيد الفعلي');return}
+  const d=A-bal(w);
+  if(Math.abs(d)<0.005){closeSheet();toast('الرصيد مطابق');return}
+  state.txs.push({id:uid(),ts:Date.now(),type:'adjust',w:w.id,amt:Math.round(d*100)/100,note:''});
+  commit('اتسوّى الرصيد');
+}
+function fWallet(){
+  openSheet('محفظة جديدة',`
+    <label>الاسم<input id="n_n" maxlength="30" placeholder="مثال: كاش، بنك، محفظة موبايل"></label>
+    <label>العملة<select id="n_c"><option value="AED">درهم إماراتي (د.إ)</option><option value="EGP">جنيه مصري (ج.م)</option><option value="GOLD">ذهب عيار 24 (بالجرام)</option></select></label>
+    <label>الرصيد الحالي (للذهب: عدد الجرامات)<input id="n_o" inputmode="decimal" placeholder="0.00" autocomplete="off"></label>
+    <button class="btn primary wide" data-act="saveWallet">إضافة</button>`);
+}
+function saveWallet(){
+  const n=val('n_n').trim(), o=num(val('n_o')||'0');
+  if(!n||isNaN(o)){toast('اكتب الاسم والرصيد');return}
+  state.wallets.push({id:uid(),name:n,cur:val('n_c'),open:o});
+  commit('اتضافت المحفظة');
+}
+function openWallet(id){
+  const w=getW(id); if(!w) return;
+  const rows=[...state.txs].filter(t=>eff(t).some(([i])=>i===id)).sort((a,b)=>b.ts-a.ts).slice(0,12).map(t=>{
+    const v=txView(t); return v?`<button class="tx" data-act="tx" data-id="${t.id}"><div><div class="t">${v.title}</div><div class="d">${v.sub} · ${dshow(t.ts)}</div></div><div class="a ${v.cls}">${v.amt}</div></button>`:'';
+  }).join('');
+  openSheet(w.name,`
+    <div class="kv"><span class="hint">الرصيد</span><b>${N(money(w.cur,bal(w)))}</b></div>
+    ${w.cur==='GOLD'?`<div class="kv"><span class="hint">قيمته بسعر النهاردة</span><b>${gp()>0?N(fmt(bal(w)*gp())+' د.إ')+' · '+N(fmt(bal(w)*gpEGP())+' ج.م'):'حدد سعر الجرام'}</b></div>`:''}
+    <div class="row2"><button class="btn" data-act="fOut" data-w="${id}">مصروف</button><button class="btn" data-act="fIn" data-w="${id}">دخل</button></div>
+    <button class="btn wide" data-act="fAdj" data-w="${id}">مطابقة الرصيد</button>
+    <div class="list">${rows||'<div class="empty">مفيش عمليات على المحفظة دي</div>'}</div>
+    <button class="btn danger wide" data-act="delWallet" data-id="${id}">حذف المحفظة</button>`);
+}
+function openTx(id){
+  const t=state.txs.find(x=>x.id===id); if(!t) return; const v=txView(t); if(!v) return;
+  openSheet('تفاصيل العملية',`
+    <div class="kv"><span class="hint">النوع</span><b>${v.title}</b></div>
+    <div class="kv"><span class="hint">المحفظة</span><span>${v.sub}</span></div>
+    <div class="kv"><span class="hint">المبلغ</span><b class="${v.cls}">${v.amt}</b></div>
+    <div class="kv"><span class="hint">التاريخ</span><span>${new Date(t.ts).toLocaleDateString('ar-EG-u-nu-latn',{day:'numeric',month:'long',year:'numeric'})}</span></div>
+    <button class="btn danger wide" data-act="delTx" data-id="${id}">حذف العملية</button>`);
+}
+function openSettings(){
+  const cred=hasCred();
+  openSheet('الإعدادات',`
+    <label>سعر الصرف (كام جنيه في الدرهم)<input id="s_r" inputmode="decimal" value="${state.rate}"></label>
+    <button class="btn wide" data-act="saveRate">حفظ الأسعار</button>
+    <label>سعر جرام الذهب عيار 24 في الإمارات (بالدرهم)<input id="s_g" inputmode="decimal" value="${state.gold>0?state.gold:''}"></label>
+    <div class="hint">آخر تحديث: <b>${esc(state.goldAt||'—')}</b>. السعر بيتحدث يدوي، وتقدر تطلب مني أحدثه من السوق. بيتحسب بيهم الإجمالي وقيمة الدهب بس، وعملياتك بتتسجل بالسعر الفعلي اللي كتبته.</div>
+    <label>سعر جرام الذهب عيار 24 في مصر (بالجنيه)<input id="s_ge" inputmode="decimal" value="${state.goldEGP>0?state.goldEGP:''}" placeholder="لو فاضي بيتحسب من سعر الإمارات"></label>
+    <label>خصم إعادة الشراء % (اختياري)<input id="s_h" inputmode="decimal" value="${state.haircut>0?state.haircut:''}" placeholder="0"></label>
+    <div class="hint">استخدمهم في حساب "كل ما أملك بالجنيه". اكتب سعر الجرام اللي المحل أو الشركة هتشتري بيه منك فعلاً، والخصم لو في فرق بين البيع والشراء.</div>
+    <button class="btn wide" data-act="togGold">${state.incGold!==false?'الدهب داخل في الإجمالي (دوس عشان تشيله)':'الدهب مش داخل في الإجمالي (دوس عشان تدخله)'}</button>
+    <div class="sep"></div>
+    ${bioOK?`<button class="btn wide" data-act="${cred?'bioOff':'bioOn'}">${cred?'إيقاف البصمة / Face ID على الجهاز ده':'تفعيل البصمة / Face ID على الجهاز ده'}</button>`:`<div class="hint">البصمة و Face ID مش متاحين هنا. الرقم السري شغال.</div>`}
+    <button class="btn wide" data-act="changePin">تغيير الرقم السري</button>
+    <div class="sep"></div>
+    <button class="btn wide" data-act="backup">نسخ نسخة احتياطية</button>
+    <textarea id="s_b" placeholder="النسخة الاحتياطية بتظهر هنا. للاسترجاع الصق نسخة قديمة هنا"></textarea>
+    <button class="btn wide" data-act="restore">استرجاع من النص اللي فوق</button>
+    <div class="sep"></div>
+    <button class="btn danger wide" data-act="resetAll">مسح كل البيانات</button>`);
+}
+function openAllEGP(){
+  const {s}=totals(), r=state.rate||1, cut=(state.haircut>0?state.haircut:0)/100;
+  const egp=s.EGP, aed=s.AED*r, perG=gpEGP()*(1-cut), gold=s.GOLD*perG;
+  const total=egp+aed+gold, bars=s.GOLD/5;
+  const src=state.goldEGP>0?'سعر الذهب في مصر المحفوظ':'محسوب من سعر الإمارات × سعر الصرف';
+  openSheet('كل ما أملك بالجنيه',`
+    <div class="hint">كأنك بعت الدهب وصرفت الدرهم النهاردة بالأسعار المحفوظة.</div>
+    <div class="kv"><span>كاش وبنوك بالجنيه</span><b>${N(fmt(egp)+' ج.م')}</b></div>
+    <div class="kv"><span>الدرهم (${N(fmt(s.AED))} × ${N(rfmt(r))})</span><b>${N(fmt(aed)+' ج.م')}</b></div>
+    <div class="kv"><span>الدهب (${N(gfmt(s.GOLD))} جم × ${N(fmt(perG))})</span><b>${N(fmt(gold)+' ج.م')}</b></div>
+    ${s.GOLD>0?`<div class="hint">يعادل حوالي ${N(rfmt(Math.round(bars*100)/100))} سبيكة من فئة 5 جرام. سعر الجرام: ${src}${cut>0?`، بعد خصم ${N(rfmt(state.haircut))}%`:''}.</div>`:''}
+    <div class="sep"></div>
+    <div class="kv"><span>الإجمالي بالجنيه المصري</span><b style="font-size:22px;color:var(--accent)">${N(fmt(total))}</b></div>
+    <div class="hint">التقدير مش بيشمل مصنعية أو دمغة أو رسوم تحويل. سعر الصرف الفعلي في البنك ممكن يختلف. عدّل الأسعار من الإعدادات.</div>
+    <button class="btn wide" data-act="settings">تعديل الأسعار</button>`);
+}
+const backupJSON=()=>JSON.stringify({v:1,goldEGP:state.goldEGP||0,haircut:state.haircut||0,wallets:state.wallets,txs:state.txs,rate:state.rate,base:state.base,gold:state.gold,goldAt:state.goldAt,incGold:state.incGold});
+function offerBio(){
+  openSheet('فتح سريع',`
+    <div class="hint">تحب تفتح المحفظة بالبصمة أو Face ID بدل الرقم السري؟ الرقم السري هيفضل بديل.</div>
+    <button class="btn primary wide" data-act="bioOn2">فعّل البصمة / Face ID</button>
+    <button class="btn wide" data-act="closeSheet">مش دلوقتي</button>`);
+}
+
+/* ---------- events ---------- */
+document.addEventListener('click',async e=>{
+  const k=e.target.closest('[data-k]'); if(k){key(k.dataset.k);return}
+  const a=e.target.closest('[data-act]'); if(!a) return;
+  const d=a.dataset;
+  switch(d.act){
+    case 'reveal': reveal=!reveal; render(); break;
+    case 'lock': lockNow(); break;
+    case 'base': state.base=d.v; persist(); render(); break;
+    case 'closeSheet': closeSheet(); break;
+    case 'fOut': closeSheet(); fTx('out',d.w); break;
+    case 'fIn': closeSheet(); fTx('in',d.w); break;
+    case 'fMove': fMove(); break;
+    case 'fAdj': closeSheet(); fAdj(d.w); break;
+    case 'fWallet': fWallet(); break;
+    case 'cat': document.querySelectorAll('#f_c .chip').forEach(c=>c.classList.toggle('on',c===a)); break;
+    case 'saveTx': saveTx(d.type); break;
+    case 'saveMove': saveMove(); break;
+    case 'saveAdj': saveAdj(); break;
+    case 'saveWallet': saveWallet(); break;
+    case 'wallet': openWallet(d.id); break;
+    case 'tx': closeSheet(); openTx(d.id); break;
+    case 'delTx':
+      if(a.dataset.sure){state.txs=state.txs.filter(t=>t.id!==d.id);commit('اتحذفت')}
+      else{a.dataset.sure=1;a.textContent='دوس تاني للتأكيد'}
+      break;
+    case 'delWallet':
+      if(a.dataset.sure){state.txs=state.txs.filter(t=>t.w!==d.id&&t.to!==d.id);state.wallets=state.wallets.filter(w=>w.id!==d.id);commit('اتحذفت المحفظة')}
+      else{a.dataset.sure=1;a.textContent='هتتحذف مع عملياتها. دوس تاني للتأكيد'}
+      break;
+    case 'clearDemo': state.wallets=[];state.txs=[];state.demo=false;commit(); fWallet(); break;
+    case 'settings': openSettings(); break;
+    case 'saveRate': {
+      const r=num(val('s_r')), g=num(val('s_g')||'0'), ge=num(val('s_ge')||'0'), h=num(val('s_h')||'0');
+      if(!(r>0)||isNaN(g)||g<0||isNaN(ge)||ge<0||isNaN(h)||h<0||h>50){toast('اكتب أسعار صحيحة');break}
+      if(g!==state.gold||ge!==state.goldEGP) state.goldAt=today();
+      state.rate=r;state.gold=g;state.goldEGP=ge;state.haircut=h;commit('اتحفظت الأسعار');break}
+    case 'allEGP': openAllEGP(); break;
+    case 'togGold': state.incGold=state.incGold===false; commit(state.incGold?'الدهب داخل في الإجمالي':'الدهب خرج من الإجمالي'); break;
+    case 'bioOn': case 'bioOn2': {const ok=await enableBio();closeSheet();toast(ok?'اتفعلت البصمة':'الجهاز أو المتصفح منع البصمة هنا. استخدم الرقم السري');break}
+    case 'bioOff': try{localStorage.removeItem(LSC)}catch(x){} closeSheet(); toast('اتوقفت البصمة'); break;
+    case 'bio': bioLogin(); break;
+    case 'changePin': closeSheet(); changing=true; mode='change1'; buf=''; errMsg=''; renderLock(); break;
+    case 'cancelChange': changing=false; mode='app'; buf=''; renderLock(); break;
+    case 'backup': {
+      const j=backupJSON(); const t=$('#s_b'); t.value=j; t.select();
+      try{await navigator.clipboard.writeText(j);toast('اتنسخت. احفظها في مكان آمن')}catch(x){toast('حدد النص وانسخه بإيدك')}
+      break;}
+    case 'restore': {
+      try{const o=JSON.parse(val('s_b'));
+        if(!Array.isArray(o.wallets)||!Array.isArray(o.txs)) throw 0;
+        state.wallets=o.wallets;state.txs=o.txs;state.rate=o.rate>0?o.rate:state.rate;state.base=o.base==='EGP'?'EGP':'AED';if(o.gold>=0){state.gold=o.gold;state.goldAt=o.goldAt||state.goldAt}state.incGold=o.incGold!==false;state.goldEGP=o.goldEGP>0?o.goldEGP:0;state.haircut=o.haircut>0?o.haircut:0;state.demo=false;
+        commit('اتسترجعت البيانات');
+      }catch(x){toast('النص ده مش نسخة احتياطية صحيحة')}
+      break;}
+    case 'resetAll':
+      if(a.dataset.sure){state.wallets=[];state.txs=[];state.demo=false;commit('اتمسحت كل البيانات')}
+      else{a.dataset.sure=1;a.textContent='هتتمسح كل البيانات. دوس تاني للتأكيد'}
+      break;
+  }
+});
+document.addEventListener('input',e=>{
+  if(e.target.id==='m_b') e.target.dataset.touched=1;
+  if(liveFn&&e.target.closest('#sheetBody')) liveFn();
+});
+document.addEventListener('change',e=>{
+  if(e.target.id==='m_f'||e.target.id==='m_t'){const b=$('#m_b');if(b)delete b.dataset.touched}
+  if(liveFn&&e.target.closest('#sheetBody')) liveFn();
+});
+document.addEventListener('pointerdown',resetIdle);
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&mode==='app')lockNow()});
+$('#sheetWrap').addEventListener('click',e=>{if(e.target.id==='sheetWrap')closeSheet()});
+
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
+/* ---------- start ---------- */
+state=migrate(loadLocal());
+if(state&&state.pin){mode='lock'}
+else{state=newState();mode='loading'}
+renderLock();
+checkBio();
+if(mode==='loading'){
+  Promise.race([initDb(),new Promise(r=>setTimeout(r,3500))]).then(()=>{
+    if(mode==='loading'){mode='setup1';buf='';renderLock()}
+  });
+} else initDb();
+})();
+</script>
+</body>
+</html>

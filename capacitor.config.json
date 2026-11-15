@@ -1,0 +1,6 @@
+{
+  "appId": "com.atwallet.app",
+  "appName": "AT wallet",
+  "webDir": "web",
+  "server": { "androidScheme": "https" }
+}
