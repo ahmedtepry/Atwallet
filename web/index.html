@@ -67,6 +67,16 @@ h2{font-family:var(--display);font-size:18px;font-weight:700;margin:24px 0 10px}
 .gold{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
 .gold .gv{font-size:17px;font-weight:600;margin:2px 0;display:flex;gap:8px;flex-wrap:wrap}
 .gold .gl{text-align:start;padding:0}
+.planline{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin:8px 0 0}
+.planline s{font-family:var(--display);font-size:22px;color:var(--mute);text-decoration:none}
+.planline s .num{text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:var(--accent)}
+.planline .cur{color:var(--mute);font-size:14px}
+.planline .pt{font-size:13px;color:var(--accent);font-weight:600}
+.plan{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.bar{height:8px;border-radius:99px;background:var(--bg);border:1px solid var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.resbox{border:1px dashed var(--accent);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px;min-height:48px}
+.w.wide{width:100%;min-height:64px}
 .prices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0 6px}
 .prices div{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:12px;padding:8px 10px;display:flex;flex-direction:column;gap:2px}
 .prices b{font-weight:600;font-size:15px}
@@ -251,6 +261,20 @@ function totals(){
   return {s,goldAED,goldEGPv,total};
 }
 const m=t=>reveal?t:'••••••';
+const dlong=ts=>new Date(ts).toLocaleDateString('ar-EG-u-nu-latn',{day:'numeric',month:'long',year:'numeric'});
+function planCalc(p){
+  const monthly=p.mode==='monthly'?p.amount:p.amount/p.months;
+  const total=p.mode==='total'?p.amount:p.amount*p.months;
+  const end=new Date(p.startTs||Date.now()); end.setMonth(end.getMonth()+p.months);
+  return {monthly,total,end:end.getTime()};
+}
+function planInfo(){
+  const p=state.plan; if(!p||!(p.months>0)||!(p.amount>0)) return null;
+  const c=planCalc(p);
+  const el=Math.max(0,Math.min(p.months,(Date.now()-p.startTs)/(86400000*30.4375)));
+  return {p,monthly:c.monthly,total:c.total,end:c.end,elapsed:el,sofar:c.monthly*el,pct:el/p.months};
+}
+const planBase=pi=>fromAED(state.base,toAED(pi.p.cur,pi.total));
 
 /* ---------- pin + biometric ---------- */
 async function hash(salt,pin){
@@ -381,6 +405,15 @@ function render(){
   if(mode==='lock'||mode==='loading'||mode.startsWith('setup')){ $('#root').innerHTML=''; return; }
   const {s,goldAED,goldEGPv,total}=totals();
   const hasGold=state.wallets.some(w=>w.cur==='GOLD');
+  const pi=planInfo();
+  const planHtml=pi?`<h2>خطة التحويش</h2><div class="plan">
+    <div class="kv"><span class="hint">هتحوش شهرياً</span><b>${m(N(fmt(pi.monthly)+' '+CUR[pi.p.cur]))}</b></div>
+    <div class="kv"><span class="hint">إجمالي الخطة</span><b>${m(N(fmt(pi.total)+' '+CUR[pi.p.cur]))}</b></div>
+    <div class="kv"><span class="hint">المدة</span><b>${N(pi.p.months)} شهر · لحد ${dlong(pi.end)}</b></div>
+    <div class="bar"><i style="width:${(pi.pct*100).toFixed(1)}%"></i></div>
+    <div class="hint">عدّى ${N(rfmt(Math.round(pi.elapsed*10)/10))} شهر من ${N(pi.p.months)}. المفروض تكون حوشت لحد النهاردة ${m(N(fmt(pi.sofar)+' '+CUR[pi.p.cur]))}</div>
+    <div class="row2"><button class="btn" data-act="fPlan">تعديل</button><button class="btn danger" data-act="delPlan">إلغاء الخطة</button></div>
+  </div>`:`<h2>خطة التحويش</h2><button class="w add wide" data-act="fPlan">+ ابدأ خطة تحويش</button>`;
   const rows=[...state.txs].sort((a,b)=>b.ts-a.ts).slice(0,30).map(t=>{
     const v=txView(t); if(!v) return '';
     return `<button class="tx" data-act="tx" data-id="${t.id}"><div><div class="t">${v.title}</div><div class="d">${v.sub} · ${dshow(t.ts)}</div></div><div class="a ${v.cls}">${v.amt}</div></button>`;
@@ -390,6 +423,7 @@ function render(){
   <div class="top"><div class="brand" dir="ltr"><svg class="lg" viewBox="100 130 320 250" width="34" height="27" aria-hidden="true" fill="none" stroke="#e5b777" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"><path d="M120 360 L215 150 L310 360"/><path d="M162 288 H268"/><path d="M215 150 H400"/><path d="M357 150 V360"/></svg><span>AT wallet</span></div><button class="ghost" data-act="lock">قفل الآن</button></div>
   <section class="hero">
     <div class="eyebrow">إجمالي ما معاك</div>
+    ${pi?`<div class="planline"><s>${m(N(fmt(total+planBase(pi))))}</s><span class="cur">${CUR[state.base]}</span><span class="pt">خطة تحويش · ${N(pi.p.months)} شهر من الآن</span></div>`:''}
     <button class="total" data-act="reveal" aria-label="إظهار أو إخفاء الأرصدة"><span class="v">${m(N(fmt(total)))}</span><span class="s">${CUR[state.base]}</span></button>
     <div class="sub">
       <span class="pill">درهم: <b>${m(N(fmt(s.AED)))}</b></span>
@@ -413,6 +447,7 @@ function render(){
     <button class="act" data-act="fMove">${ICON.move}تحويل / صرف</button>
     <button class="act" data-act="fAdj">${ICON.fix}مطابقة</button>
   </div>
+  ${planHtml}
   <h2>المحافظ</h2>
   <div class="wallets">${walletsHtml}<button class="w add" data-act="fWallet">+ محفظة جديدة</button></div>
   <h2>آخر العمليات</h2>
@@ -512,6 +547,44 @@ function saveAdj(){
   state.txs.push({id:uid(),ts:Date.now(),type:'adjust',w:w.id,amt:Math.round(d*100)/100,note:''});
   commit('اتسوّى الرصيد');
 }
+function fPlan(){
+  const p=state.plan||{cur:state.base,mode:'monthly',amount:'',months:12};
+  openSheet(state.plan?'تعديل خطة التحويش':'خطة تحويش جديدة',`
+    <div class="hint">اختار هتحوش كام والتطبيق يقولك النتيجة. المدة بتبدأ من النهاردة.</div>
+    <label>العملة<select id="p_c"><option value="AED"${p.cur==='AED'?' selected':''}>درهم (د.إ)</option><option value="EGP"${p.cur==='EGP'?' selected':''}>جنيه (ج.م)</option></select></label>
+    <div class="lbl">هتحدد إيه؟</div>
+    <div class="chips" id="p_m"><button type="button" class="chip${p.mode==='monthly'?' on':''}" data-act="pmode" data-v="monthly">مبلغ شهري</button><button type="button" class="chip${p.mode==='total'?' on':''}" data-act="pmode" data-v="total">إجمالي المبلغ</button></div>
+    <label><span id="p_al">المبلغ</span><div class="amt"><input id="p_a" inputmode="decimal" value="${p.amount}" placeholder="0.00" autocomplete="off"><span id="p_ac"></span></div></label>
+    <label>المدة بالشهور<input id="p_n" inputmode="numeric" value="${p.months}" autocomplete="off"></label>
+    <div class="chips">${[6,12,24,36].map(v=>`<button type="button" class="chip" data-act="pmon" data-v="${v}">${v} شهر</button>`).join('')}</div>
+    <div class="resbox" id="p_r"></div>
+    <button class="btn primary wide" data-act="savePlan">${state.plan?'حفظ التعديل':'ابدأ الخطة من النهاردة'}</button>`,
+    ()=>{
+      const cur=val('p_c'), mode=(document.querySelector('#p_m .chip.on')||{dataset:{v:'monthly'}}).dataset.v;
+      const a=num(val('p_a')), n=Math.round(num(val('p_n')));
+      $('#p_ac').textContent=CUR[cur];
+      $('#p_al').textContent=mode==='monthly'?'المبلغ الشهري':'إجمالي المبلغ اللي عايز تجمعه';
+      const r=$('#p_r');
+      if(!(a>0)||!(n>0)||n>600){r.innerHTML='<div class="hint">اكتب المبلغ والمدة وهتظهر النتيجة هنا.</div>';return}
+      const c=planCalc({mode,amount:a,months:n,startTs:Date.now()});
+      const other=cur==='AED'?'EGP':'AED';
+      const after=totals().total+fromAED(state.base,toAED(cur,c.total));
+      r.innerHTML=`
+        <div class="kv"><span>هتحوش شهرياً</span><b>${N(fmt(c.monthly)+' '+CUR[cur])}</b></div>
+        <div class="kv"><span>إجمالي الخطة</span><b>${N(fmt(c.total)+' '+CUR[cur])}</b></div>
+        <div class="kv"><span>يعادل</span><b>${N(fmt(fromAED(other,toAED(cur,c.total)))+' '+CUR[other])}</b></div>
+        <div class="kv"><span>تنتهي في</span><b>${dlong(c.end)}</b></div>
+        <div class="kv"><span>فلوسك بعد الخطة</span><b>${N(fmt(after)+' '+CUR[state.base])}</b></div>`;
+    });
+}
+function savePlan(){
+  const cur=val('p_c'), mode=(document.querySelector('#p_m .chip.on')||{dataset:{v:'monthly'}}).dataset.v;
+  const a=num(val('p_a')), n=Math.round(num(val('p_n')));
+  if(!(a>0)){toast('اكتب المبلغ');return}
+  if(!(n>=1&&n<=600)){toast('المدة من 1 لـ 600 شهر');return}
+  state.plan={cur,mode,amount:a,months:n,startTs:state.plan?state.plan.startTs:Date.now()};
+  commit('اتحفظت خطة التحويش');
+}
 function fWallet(){
   openSheet('محفظة جديدة',`
     <label>الاسم<input id="n_n" maxlength="30" placeholder="مثال: كاش، بنك، محفظة موبايل"></label>
@@ -584,7 +657,7 @@ function openAllEGP(){
     <div class="hint">التقدير مش بيشمل مصنعية أو دمغة أو رسوم تحويل. سعر الصرف الفعلي في البنك ممكن يختلف. عدّل الأسعار من الإعدادات.</div>
     <button class="btn wide" data-act="settings">تعديل الأسعار</button>`);
 }
-const backupJSON=()=>JSON.stringify({v:1,goldEGP:state.goldEGP||0,haircut:state.haircut||0,wallets:state.wallets,txs:state.txs,rate:state.rate,base:state.base,gold:state.gold,goldAt:state.goldAt,incGold:state.incGold});
+const backupJSON=()=>JSON.stringify({v:1,plan:state.plan||null,goldEGP:state.goldEGP||0,haircut:state.haircut||0,wallets:state.wallets,txs:state.txs,rate:state.rate,base:state.base,gold:state.gold,goldAt:state.goldAt,incGold:state.incGold});
 function offerBio(){
   openSheet('فتح سريع',`
     <div class="hint">تحب تفتح المحفظة بالبصمة أو Face ID بدل الرقم السري؟ الرقم السري هيفضل بديل.</div>
@@ -607,6 +680,14 @@ document.addEventListener('click',async e=>{
     case 'fMove': fMove(); break;
     case 'fAdj': closeSheet(); fAdj(d.w); break;
     case 'fWallet': fWallet(); break;
+    case 'fPlan': fPlan(); break;
+    case 'pmode': document.querySelectorAll('#p_m .chip').forEach(c=>c.classList.toggle('on',c===a)); if(liveFn)liveFn(); break;
+    case 'pmon': $('#p_n').value=d.v; if(liveFn)liveFn(); break;
+    case 'savePlan': savePlan(); break;
+    case 'delPlan':
+      if(a.dataset.sure){state.plan=null;commit('اتلغت الخطة')}
+      else{a.dataset.sure=1;a.textContent='دوس تاني للتأكيد'}
+      break;
     case 'cat': document.querySelectorAll('#f_c .chip').forEach(c=>c.classList.toggle('on',c===a)); break;
     case 'saveTx': saveTx(d.type); break;
     case 'saveMove': saveMove(); break;
@@ -643,7 +724,7 @@ document.addEventListener('click',async e=>{
     case 'restore': {
       try{const o=JSON.parse(val('s_b'));
         if(!Array.isArray(o.wallets)||!Array.isArray(o.txs)) throw 0;
-        state.wallets=o.wallets;state.txs=o.txs;state.rate=o.rate>0?o.rate:state.rate;state.base=o.base==='EGP'?'EGP':'AED';if(o.gold>=0){state.gold=o.gold;state.goldAt=o.goldAt||state.goldAt}state.incGold=o.incGold!==false;state.goldEGP=o.goldEGP>0?o.goldEGP:0;state.haircut=o.haircut>0?o.haircut:0;state.demo=false;
+        state.wallets=o.wallets;state.txs=o.txs;state.rate=o.rate>0?o.rate:state.rate;state.base=o.base==='EGP'?'EGP':'AED';if(o.gold>=0){state.gold=o.gold;state.goldAt=o.goldAt||state.goldAt}state.incGold=o.incGold!==false;state.goldEGP=o.goldEGP>0?o.goldEGP:0;state.haircut=o.haircut>0?o.haircut:0;state.plan=(o.plan&&o.plan.months>0&&o.plan.amount>0)?o.plan:null;state.demo=false;
         commit('اتسترجعت البيانات');
       }catch(x){toast('النص ده مش نسخة احتياطية صحيحة')}
       break;}
