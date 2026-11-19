@@ -2,7 +2,7 @@ name: Build APK
 on:
   push:
     branches: [main]
-    paths: ['web/**', 'capacitor.config.json', 'package.json', 'scripts/**', '.github/workflows/apk.yml']
+    paths: ['capacitor.config.json', 'package.json', 'scripts/**', '.github/workflows/apk.yml']
   workflow_dispatch:
 permissions:
   contents: write
@@ -20,6 +20,15 @@ jobs:
           java-version: 21
       - name: Install dependencies
         run: npm install --no-audit --no-fund
+      - name: Point the app at the live web app when Pages is up
+        run: |
+          URL="https://${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY#*/}/"
+          if curl -fsSL -o /dev/null "${URL}index.html"; then
+            echo "Pages is live: the APK loads $URL and updates itself on every push."
+            node -e "const fs=require('fs');const c=JSON.parse(fs.readFileSync('capacitor.config.json'));c.server={androidScheme:'https',url:process.argv[1]};fs.writeFileSync('capacitor.config.json',JSON.stringify(c,null,2))" "$URL"
+          else
+            echo "Pages is not live yet: the APK uses the bundled copy and will not auto update."
+          fi
       - name: Create Android project
         run: npx cap add android
       - name: Launcher icons

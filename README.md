@@ -15,8 +15,12 @@ Prices in the app are saved values. Update them from Settings.
 **Web app (installable):** Settings > Pages > Source: *GitHub Actions*. The `Deploy web app` workflow publishes `web/` to
 `https://ahmedtepry.github.io/Atwallet/`. Open it on Android in Chrome and choose *Add to Home screen*.
 
-**Android APK:** run the `Build APK` workflow (Actions tab > Build APK > Run workflow). When it finishes, open the repository's
+**Android APK (auto updates):** once Pages is live, run the `Build APK` workflow (Actions tab > Build APK > Run workflow). When it finishes, open the repository's
 *Releases* page on your phone and download `AT-wallet.apk`.
+
+When Pages is live at build time, the APK is a thin shell that opens the hosted web app, so every push to `web/` reaches the phone the next
+time the app opens (it also works offline after the first load). You only reinstall the APK if the Android wrapper itself changes.
+If Pages was not live when the APK was built, it uses the bundled copy and does not auto update: enable Pages, then run `Build APK` again.
 
 ### Keep your data across APK updates
 
