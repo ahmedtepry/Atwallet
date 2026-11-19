@@ -435,7 +435,9 @@ function render(){
     ${hasGold?`<div class="gold"><div class="eyebrow">قيمة الدهب عيار 24 النهاردة</div>
       <div class="gv">${gp()>0?m(N(fmt(goldAED))+' د.إ')+' · '+m(N(fmt(goldEGPv))+' ج.م'):'حدد سعر الجرام من الإعدادات'}</div>
       <div class="prices"><div><span class="eyebrow">جرام 24 في الإمارات</span><b>${N(fmt(gp()))} د.إ</b></div><div><span class="eyebrow">جرام 24 في مصر</span><b>${N(fmt(gpEGP()))} ج.م</b>${state.goldEGP>0?'':' <span class="eyebrow">(تقريبي)</span>'}</div></div>
-      <button class="hint gl" data-act="settings">آخر تحديث ${esc(state.goldAt||'')} · عدّل الأسعار</button></div>`:''}
+      <button class="hint gl" data-act="settings">آخر تحديث ${esc(state.goldAt||'')} · عدّل الأسعار</button></div>`:`<div class="gold"><div class="eyebrow">الدهب عيار 24</div>
+      <div class="prices"><div><span class="eyebrow">جرام 24 في الإمارات</span><b>${N(fmt(gp()))} د.إ</b></div><div><span class="eyebrow">جرام 24 في مصر</span><b>${N(fmt(gpEGP()))} ج.م</b></div></div>
+      <button class="btn wide" data-act="addGold">+ أضف سبائك الدهب واكتب الجرامات</button></div>`}
     <button class="btn primary wide" style="margin-top:12px" data-act="allEGP">كل ما أملك بالجنيه المصري</button>
     <button class="btn wide" style="margin-top:8px" data-act="reveal">${reveal?'إخفاء الأرصدة':'إظهار الأرصدة'}</button>
     <div class="hint" style="margin-top:8px">الأرصدة بتتخفى تلقائي كل مرة تفتح التطبيق.</div>
@@ -703,7 +705,8 @@ document.addEventListener('click',async e=>{
       if(a.dataset.sure){state.txs=state.txs.filter(t=>t.w!==d.id&&t.to!==d.id);state.wallets=state.wallets.filter(w=>w.id!==d.id);commit('اتحذفت المحفظة')}
       else{a.dataset.sure=1;a.textContent='هتتحذف مع عملياتها. دوس تاني للتأكيد'}
       break;
-    case 'clearDemo': state.wallets=[];state.txs=[];state.demo=false;commit(); fWallet(); break;
+    case 'clearDemo': state.wallets=[{id:'gold1',name:'سبائك دهب',cur:'GOLD',open:0}];state.txs=[];state.demo=false;commit(); fWallet(); break;
+    case 'addGold': {const w={id:uid(),name:'سبائك دهب',cur:'GOLD',open:0};state.wallets.push(w);persist();closeSheet();render();fAdj(w.id);break}
     case 'settings': openSettings(); break;
     case 'saveRate': {
       const r=num(val('s_r')), g=num(val('s_g')||'0'), ge=num(val('s_ge')||'0'), h=num(val('s_h')||'0');
