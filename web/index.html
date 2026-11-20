@@ -77,6 +77,7 @@ h2{font-family:var(--display);font-size:18px;font-weight:700;margin:24px 0 10px}
 .bar i{display:block;height:100%;background:var(--accent);border-radius:99px}
 .resbox{border:1px dashed var(--accent);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px;min-height:48px}
 .w.wide{width:100%;min-height:64px}
+.gbox{display:flex;flex-direction:column;gap:12px}
 .prices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0 6px}
 .prices div{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:12px;padding:8px 10px;display:flex;flex-direction:column;gap:2px}
 .prices b{font-weight:600;font-size:15px}
@@ -435,6 +436,7 @@ function render(){
     ${hasGold?`<div class="gold"><div class="eyebrow">قيمة الدهب عيار 24 النهاردة</div>
       <div class="gv">${gp()>0?m(N(fmt(goldAED))+' د.إ')+' · '+m(N(fmt(goldEGPv))+' ج.م'):'حدد سعر الجرام من الإعدادات'}</div>
       <div class="prices"><div><span class="eyebrow">جرام 24 في الإمارات</span><b>${N(fmt(gp()))} د.إ</b></div><div><span class="eyebrow">جرام 24 في مصر</span><b>${N(fmt(gpEGP()))} ج.م</b>${state.goldEGP>0?'':' <span class="eyebrow">(تقريبي)</span>'}</div></div>
+      <button class="btn wide" data-act="fIn" data-w="${(state.wallets.find(w=>w.cur==='GOLD')||{}).id}">+ أضف جرامات دهب</button>
       <button class="hint gl" data-act="settings">آخر تحديث ${esc(state.goldAt||'')} · عدّل الأسعار</button></div>`:`<div class="gold"><div class="eyebrow">الدهب عيار 24</div>
       <div class="prices"><div><span class="eyebrow">جرام 24 في الإمارات</span><b>${N(fmt(gp()))} د.إ</b></div><div><span class="eyebrow">جرام 24 في مصر</span><b>${N(fmt(gpEGP()))} ج.م</b></div></div>
       <button class="btn wide" data-act="addGold">+ أضف سبائك الدهب واكتب الجرامات</button></div>`}
@@ -465,7 +467,7 @@ function openSheet(title,body,live){
 function closeSheet(){$('#sheetWrap').hidden=true;$('#sheetBody').innerHTML='';liveFn=null;document.body.classList.remove('noscroll')}
 function toast(t){const e=$('#toast');e.textContent=t;e.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>{e.hidden=true},2400)}
 function commit(msg){persist();closeSheet();render();if(msg)toast(msg)}
-const wOpts=(sel,skip)=>state.wallets.filter(w=>w.id!==skip).map(w=>`<option value="${w.id}"${w.id===sel?' selected':''}>${esc(w.name)} · ${w.cur}</option>`).join('');
+const wOpts=(sel,skip)=>state.wallets.filter(w=>w.id!==skip).map(w=>`<option value="${w.id}"${w.id===sel?' selected':''}>${esc(w.name)} · ${w.cur==='GOLD'?'جرام دهب':w.cur}</option>`).join('');
 const val=id=>{const e=$('#'+id);return e?e.value:''};
 function tsFrom(d){return (!d||d===today())?Date.now():new Date(d+'T12:00:00').getTime()}
 
@@ -474,19 +476,49 @@ function fTx(type,wid){
   const cats=type==='out'?CATS_OUT:CATS_IN;
   openSheet(type==='out'?'مصروف جديد':'دخل جديد',`
     <label>المحفظة<select id="f_w">${wOpts(wid)}</select></label>
-    <label>المبلغ<div class="amt"><input id="f_a" inputmode="decimal" placeholder="0.00" autocomplete="off"><span id="f_cur"></span></div></label>
-    <div class="lbl">التصنيف</div>
-    <div class="chips" id="f_c">${cats.map((c,i)=>`<button type="button" class="chip${i===0?' on':''}" data-act="cat" data-v="${c}">${c}</button>`).join('')}</div>
+    <label><span id="f_al">المبلغ</span><div class="amt"><input id="f_a" inputmode="decimal" placeholder="0.00" autocomplete="off"><span id="f_cur"></span></div></label>
+    <div id="f_gold" class="gbox" hidden>
+      <label>سعر الجرام النهاردة<div class="amt"><input id="f_gp" inputmode="decimal" placeholder="0.00" autocomplete="off"><select id="f_gc" style="width:auto"><option value="AED">د.إ</option><option value="EGP">ج.م</option></select></div></label>
+      <div class="resbox" id="f_gv"></div>
+      <button type="button" class="chip on" id="f_gu" data-act="gupd">حدّث سعر الدهب في التطبيق بالسعر ده</button>
+    </div>
+    <div id="f_cats"><div class="lbl">التصنيف</div>
+    <div class="chips" id="f_c">${cats.map((c,i)=>`<button type="button" class="chip${i===0?' on':''}" data-act="cat" data-v="${c}">${c}</button>`).join('')}</div></div>
     <label>التاريخ<input id="f_d" type="date" value="${today()}"></label>
     <label>ملاحظة (اختياري)<input id="f_n" maxlength="80"></label>
     <button class="btn primary wide" data-act="saveTx" data-type="${type}">حفظ</button>`,
-    ()=>{const w=getW(val('f_w'));if(w)$('#f_cur').textContent=CUR[w.cur]});
+    ()=>{
+      const w=getW(val('f_w')); if(!w) return;
+      const g=w.cur==='GOLD';
+      $('#f_cur').textContent=CUR[w.cur];
+      $('#f_al').textContent=g?'عدد الجرامات':'المبلغ';
+      $('#f_cats').hidden=g; $('#f_gold').hidden=!g;
+      $('#sheetTitle').textContent=g?(type==='out'?'سحب دهب':'إضافة دهب'):(type==='out'?'مصروف جديد':'دخل جديد');
+      if(!g) return;
+      const pe=$('#f_gp'), gc=val('f_gc');
+      if(pe.dataset.cur!==gc){pe.dataset.cur=gc;const base=gc==='AED'?gp():gpEGP();pe.value=base>0?String(Math.round(base*100)/100):''}
+      const grams=num(val('f_a')), p=num(pe.value), box=$('#f_gv');
+      if(grams>0&&p>0){
+        const v=grams*p, oc=gc==='AED'?'EGP':'AED', ov=gc==='AED'?v*(state.rate||1):v/(state.rate||1);
+        box.innerHTML=`<div class="kv"><span>قيمتها</span><b>${N(fmt(v)+' '+CUR[gc])}</b></div><div class="kv"><span>تعادل</span><b>${N(fmt(ov)+' '+CUR[oc])}</b></div>`;
+      } else box.innerHTML='<div class="hint">اكتب الجرامات والسعر وهتظهر القيمة هنا.</div>';
+    });
 }
 function saveTx(type){
   const w=getW(val('f_w')), a=num(val('f_a'));
-  if(!w||!(a>0)){toast('اكتب مبلغ صحيح');return}
-  const c=document.querySelector('#f_c .chip.on');
-  state.txs.push({id:uid(),ts:tsFrom(val('f_d')),type,w:w.id,amt:a,cat:c?c.dataset.v:'أخرى',note:val('f_n').trim()});
+  if(!w||!(a>0)){toast(w&&w.cur==='GOLD'?'اكتب عدد الجرامات':'اكتب مبلغ صحيح');return}
+  const t={id:uid(),ts:tsFrom(val('f_d')),type,w:w.id,amt:a,note:val('f_n').trim()};
+  if(w.cur==='GOLD'){
+    t.cat=type==='out'?'سحب دهب':'إضافة دهب';
+    const p=num(val('f_gp')), c=val('f_gc');
+    if(p>0){
+      t.px=p;t.pc=c;
+      if(!t.note) t.note='بسعر '+fmt(p)+' '+CUR[c]+' للجرام';
+      const gu=$('#f_gu');
+      if(gu&&gu.classList.contains('on')){ if(c==='AED') state.gold=p; else state.goldEGP=p; state.goldAt=today(); }
+    }
+  } else { const c=document.querySelector('#f_c .chip.on'); t.cat=c?c.dataset.v:'أخرى'; }
+  state.txs.push(t);
   commit('اتسجل');
 }
 function fMove(){
@@ -683,6 +715,7 @@ document.addEventListener('click',async e=>{
     case 'fAdj': closeSheet(); fAdj(d.w); break;
     case 'fWallet': fWallet(); break;
     case 'fPlan': fPlan(); break;
+    case 'gupd': a.classList.toggle('on'); break;
     case 'pmode': document.querySelectorAll('#p_m .chip').forEach(c=>c.classList.toggle('on',c===a)); if(liveFn)liveFn(); break;
     case 'pmon': $('#p_n').value=d.v; if(liveFn)liveFn(); break;
     case 'savePlan': savePlan(); break;
@@ -706,7 +739,7 @@ document.addEventListener('click',async e=>{
       else{a.dataset.sure=1;a.textContent='هتتحذف مع عملياتها. دوس تاني للتأكيد'}
       break;
     case 'clearDemo': state.wallets=[{id:'gold1',name:'سبائك دهب',cur:'GOLD',open:0}];state.txs=[];state.demo=false;commit(); fWallet(); break;
-    case 'addGold': {const w={id:uid(),name:'سبائك دهب',cur:'GOLD',open:0};state.wallets.push(w);persist();closeSheet();render();fAdj(w.id);break}
+    case 'addGold': {const w={id:uid(),name:'سبائك دهب',cur:'GOLD',open:0};state.wallets.push(w);persist();closeSheet();render();fTx('in',w.id);break}
     case 'settings': openSettings(); break;
     case 'saveRate': {
       const r=num(val('s_r')), g=num(val('s_g')||'0'), ge=num(val('s_ge')||'0'), h=num(val('s_h')||'0');
